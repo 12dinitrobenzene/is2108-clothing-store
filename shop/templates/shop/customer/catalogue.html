@@ -1,0 +1,16 @@
+{% extends "shop/layouts/storefront.html" %}
+
+{% block title %}Catalogue | Clothing Store{% endblock %}
+
+{% block content %}
+<h1>Catalogue</h1>
+<div class="row g-4">
+    {% for product in products %}
+        <div class="col-sm-6 col-lg-4">
+            {% include "shop/components/product_card.html" %}
+        </div>
+    {% empty %}
+        <p class="text-muted">No products are available yet.</p>
+    {% endfor %}
+</div>
+{% endblock %}

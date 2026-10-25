@@ -1,0 +1,77 @@
+body {
+    min-height: 100vh;
+}
+
+.card-img-top {
+    aspect-ratio: 4 / 3;
+    object-fit: cover;
+}
+
+.landing-page {
+    --landing-ink: #202621;
+    --landing-muted: #667168;
+    color: var(--landing-ink);
+}
+
+.landing-hero {
+    background: #283d32;
+    color: #fff;
+}
+
+.landing-hero .container {
+    padding-top: clamp(5rem, 14vw, 10rem) !important;
+    padding-bottom: clamp(5rem, 14vw, 10rem) !important;
+}
+
+.landing-eyebrow,
+.landing-card-label {
+    color: #829586;
+    font-size: 0.75rem;
+    font-weight: 700;
+    letter-spacing: 0.14em;
+}
+
+.landing-hero .landing-eyebrow {
+    color: #c4d4c6;
+}
+
+.landing-intro {
+    max-width: 38rem;
+    color: #e1e8e2;
+}
+
+.landing-link-card {
+    position: relative;
+    display: flex;
+    min-height: 12rem;
+    flex-direction: column;
+    gap: 0.65rem;
+    padding: 1.5rem;
+    border: 1px solid #dce2dc;
+    border-radius: 0.5rem;
+    color: inherit;
+    text-decoration: none;
+    transition: border-color 150ms ease, transform 150ms ease;
+}
+
+.landing-link-card:hover,
+.landing-link-card:focus-visible {
+    transform: translateY(-2px);
+    border-color: #657b69;
+}
+
+.landing-card-title {
+    font-size: 1.5rem;
+    font-weight: 600;
+}
+
+.landing-card-description {
+    color: var(--landing-muted);
+}
+
+.landing-card-arrow {
+    position: absolute;
+    right: 1.5rem;
+    bottom: 1.25rem;
+    font-size: 1.5rem;
+}

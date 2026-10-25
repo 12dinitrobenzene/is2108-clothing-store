@@ -218,3 +218,14 @@ __marimo__/
 
 # Streamlit
 .streamlit/secrets.toml
+
+# macOS files
+.DS_Store
+
+# Additional SQLite temporary files
+db.sqlite3-wal
+db.sqlite3-shm
+
+# Environment variants such as .env.local
+.env.*
+!.env.example
