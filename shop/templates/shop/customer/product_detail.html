@@ -1,0 +1,15 @@
+{% extends "shop/layouts/storefront.html" %}
+
+{% block title %}{{ product.name }} | Clothing Store{% endblock %}
+
+{% block content %}
+<article>
+    <h1>{{ product.name }}</h1>
+    {% if product.image %}
+        <img src="{{ product.image.url }}" class="img-fluid mb-3" alt="{{ product.name }}">
+    {% endif %}
+    {% if product.price %}<p class="fs-5">${{ product.price }}</p>{% endif %}
+    {% if product.description %}<p>{{ product.description }}</p>{% endif %}
+    {% block product_actions %}{% endblock %}
+</article>
+{% endblock %}

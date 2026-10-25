@@ -1,0 +1,21 @@
+{% extends "shop/layouts/base.html" %}
+
+{% block body %}
+<nav class="navbar navbar-expand-lg bg-light">
+    <div class="container">
+        <a class="navbar-brand" href="/">Clothing Store</a>
+        <div class="navbar-nav">
+            <a class="nav-link" href="/">Catalogue</a>
+        </div>
+        {% block storefront_navigation %}{% endblock %}
+    </div>
+</nav>
+<main class="container py-4">
+    {% block content %}{% endblock %}
+</main>
+<footer class="border-top py-3">
+    <div class="container text-muted">
+        {% block footer %}Clothing Store{% endblock %}
+    </div>
+</footer>
+{% endblock %}
