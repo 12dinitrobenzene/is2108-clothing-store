@@ -75,3 +75,128 @@ body {
     bottom: 1.25rem;
     font-size: 1.5rem;
 }
+
+.product-card {
+    border: 0;
+}
+
+.product-card-image {
+    width: 100%;
+    aspect-ratio: 3 / 4;
+    object-fit: cover;
+    background: #f4f4f4;
+}
+
+.product-card-vendor,
+.product-brand {
+    color: #777;
+    font-size: 0.78rem;
+    font-weight: 600;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+}
+
+.product-image-placeholder,
+.product-main-placeholder {
+    display: grid;
+    place-items: center;
+    background: #f1f1f1;
+    color: #777;
+}
+
+.product-image-placeholder {
+    aspect-ratio: 3 / 4;
+}
+
+.product-main-placeholder,
+.product-main-image {
+    width: 100%;
+    aspect-ratio: 4 / 5;
+}
+
+.product-main-image {
+    display: block;
+    object-fit: cover;
+    background: #f1f1f1;
+}
+
+.product-thumbnails {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.75rem;
+}
+
+.product-thumbnail {
+    width: 70px;
+    padding: 0;
+    border: 2px solid transparent;
+    background: none;
+}
+
+.product-thumbnail.active,
+.product-thumbnail:focus-visible {
+    border-color: #222;
+}
+
+.product-thumbnail img {
+    display: block;
+    width: 100%;
+    aspect-ratio: 3 / 4;
+    object-fit: cover;
+}
+
+.product-price {
+    margin: 1.5rem 0;
+    font-size: 1.6rem;
+    font-weight: 500;
+}
+
+.product-price span {
+    color: #777;
+    font-size: 1rem;
+    font-weight: 400;
+}
+
+.product-description {
+    color: #555;
+    line-height: 1.8;
+}
+
+.variant-list {
+    border-top: 1px solid #ddd;
+}
+
+.variant-row {
+    display: flex;
+    justify-content: space-between;
+    gap: 1rem;
+    padding: 0.9rem 0;
+    border-bottom: 1px solid #ddd;
+}
+
+.variant-row strong {
+    display: inline-block;
+    min-width: 2.5rem;
+}
+
+.product-information,
+.related-products {
+    margin-top: 5rem;
+}
+
+.product-information {
+    max-width: 50rem;
+}
+
+.product-information p {
+    color: #555;
+    line-height: 1.8;
+}
+
+@media (max-width: 575.98px) {
+    .variant-row {
+        align-items: flex-start;
+        flex-direction: column;
+        gap: 0.25rem;
+    }
+}
