@@ -104,30 +104,78 @@
 
             <hr>
 
-            <h2 class="h5">Available variants</h2>
+            <section
+                class="variant-picker"
+                data-variant-picker
+                data-default-colour="{{ default_colour }}"
+            >
+                {% if product.active_variants %}
+                    <fieldset class="mb-4">
+                        <legend class="variant-heading">
+                            Colour:
+                            <span data-selected-colour>
+                                {{ default_colour }}
+                            </span>
+                        </legend>
 
-            <div class="variant-list">
-                {% for variant in product.active_variants %}
-                    <div class="variant-row">
-                        <div>
-                            <strong>{{ variant.size }}</strong>
-                            <span>{{ variant.colour }}</span>
+                        <div class="colour-options">
+                            {% for colour in available_colours %}
+                                <button
+                                    type="button"
+                                    class="colour-swatch {% if colour.name == default_colour %}is-selected{% endif %}"
+                                    style="--swatch-colour: {{ colour.hex }};"
+                                    data-colour="{{ colour.name }}"
+                                    aria-label="Select {{ colour.name }}"
+                                    aria-pressed="{% if colour.name == default_colour %}true{% else %}false{% endif %}"
+                                >
+                                    <span class="visually-hidden">
+                                        {{ colour.name }}
+                                    </span>
+                                </button>
+                            {% endfor %}
                         </div>
+                    </fieldset>
 
-                        <span class="text-muted">
-                            {{ variant.total_quantity }} available
-                        </span>
-                    </div>
-                {% empty %}
-                    <p class="text-muted">
-                        No variants are currently available.
+                    <fieldset class="mb-4">
+                        <legend class="variant-heading">
+                            Size:
+                            <span data-selected-size></span>
+                        </legend>
+
+                        <div class="size-options">
+                            {% for variant in product.active_variants %}
+                                <button
+                                    type="button"
+                                    class="size-option"
+                                    data-size-option
+                                    data-colour="{{ variant.colour }}"
+                                    data-size="{{ variant.size }}"
+                                    data-stock="{{ variant.total_quantity }}"
+                                    data-variant-id="{{ variant.id }}"
+                                    aria-pressed="false"
+                                    {% if variant.colour != default_colour %}hidden{% endif %}
+                                >
+                                    {{ variant.size }}
+                                </button>
+                            {% endfor %}
+                        </div>
+                    </fieldset>
+
+                    <p class="stock-message" data-stock-message>
+                        Choose a size
                     </p>
-                {% endfor %}
-            </div>
 
-            <p class="mt-3">
-                <strong>Total stock:</strong> {{ total_stock }}
-            </p>
+                    <input
+                        type="hidden"
+                        name="variant_id"
+                        data-variant-input
+                    >
+                {% else %}
+                    <p class="text-muted">
+                        This product is currently unavailable.
+                    </p>
+                {% endif %}
+            </section>
 
             <hr>
 
