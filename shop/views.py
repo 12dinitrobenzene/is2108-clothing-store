@@ -37,6 +37,27 @@ def product_detail(request, product_id):
         for variant in product.active_variants
     )
 
+    available_colours = []
+    seen_colours = set()
+
+    for variant in product.active_variants:
+        colour_key = variant.colour.strip().casefold()
+
+        if colour_key not in seen_colours:
+            seen_colours.add(colour_key)
+            available_colours.append(
+                {
+                    "name": variant.colour,
+                    "hex": variant.colour_hex,
+                }
+            )
+
+    default_colour = (
+        available_colours[0]["name"]
+        if available_colours
+        else ""
+    )
+
     return render(
         request,
         "shop/customer/product_detail.html",
@@ -44,6 +65,8 @@ def product_detail(request, product_id):
             "product": product,
             "related_products": related_products,
             "total_stock": total_stock,
+            "available_colours": available_colours,
+            "default_colour": default_colour,
         },
     )
 
@@ -84,7 +107,10 @@ def visible_products():
             "images",
             Prefetch(
                 "variants",
-                queryset=ProductVariant.objects.filter(is_active=True),
+                queryset=ProductVariant.objects.filter(
+                    is_active=True,
+                    total_quantity__gt=0,
+                ),
                 to_attr="active_variants",
             ),
         )

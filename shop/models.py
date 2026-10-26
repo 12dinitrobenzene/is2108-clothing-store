@@ -1,7 +1,10 @@
-from django.db import models
 from decimal import Decimal
 
-from django.core.validators import MaxValueValidator, MinValueValidator
+from django.core.validators import (
+    MaxValueValidator,
+    MinValueValidator,
+    RegexValidator,
+)
 from django.db import models
 
 
@@ -97,6 +100,16 @@ class ProductVariant(models.Model):
     sku = models.CharField(max_length=64, unique=True)
     size = models.CharField(max_length=20)
     colour = models.CharField(max_length=50)
+    colour_hex = models.CharField(
+        max_length=7,
+        default="#A0A0A0",
+        validators=[
+            RegexValidator(
+                regex=r"^#[0-9A-Fa-f]{6}$",
+                message="Enter a colour such as #A9C77D.",
+            ),
+        ],
+    )
 
     # Physical stock owned, not date-specific rental availability.
     total_quantity = models.PositiveIntegerField(default=0)
