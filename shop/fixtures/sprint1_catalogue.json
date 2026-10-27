@@ -1,0 +1,142 @@
+[
+{
+  "model": "shop.vendor",
+  "pk": 1,
+  "fields": {
+    "name": "Nike Singapore",
+    "contact_email": "nike@gmail.com",
+    "contact_phone": "8888 8888",
+    "address": "Block 123 Choa Chu Kang Street 1 #01-01",
+    "approval_status": "Approved",
+    "is_suspended": false,
+    "created_at": "2026-10-27T17:35:01.237Z"
+  }
+},
+{
+  "model": "shop.category",
+  "pk": 6,
+  "fields": {
+    "name": "Graphic Tees"
+  }
+},
+{
+  "model": "shop.category",
+  "pk": 7,
+  "fields": {
+    "name": "Baggy Jeans"
+  }
+},
+{
+  "model": "shop.category",
+  "pk": 8,
+  "fields": {
+    "name": "Hoodies & Sweatshirts"
+  }
+},
+{
+  "model": "shop.product",
+  "pk": 1,
+  "fields": {
+    "vendor": 1,
+    "category": 6,
+    "name": "Nike Sportswear Boxy Graphic Tee",
+    "description": "A relaxed boxy-fit graphic tee for casual campus outfits, café dates and everyday streetwear styling. Easy to pair with baggy jeans, cargos or an oversized hoodie.",
+    "brand": "Nike",
+    "daily_rate": "8.00",
+    "is_archived": false,
+    "moderation_blocked": false,
+    "moderation_reason": "",
+    "created_at": "2026-10-27T17:42:11.963Z",
+    "updated_at": "2026-10-27T17:46:54.944Z"
+  }
+},
+{
+  "model": "shop.product",
+  "pk": 2,
+  "fields": {
+    "vendor": 1,
+    "category": 7,
+    "name": "Nike Sportswear Baggy Denim Jeans",
+    "description": "Relaxed baggy denim jeans with a loose silhouette for a Y2K-inspired streetwear look. A versatile rental piece for concerts, weekend outings and casual photo shoots.",
+    "brand": "Nike",
+    "daily_rate": "14.00",
+    "is_archived": false,
+    "moderation_blocked": false,
+    "moderation_reason": "",
+    "created_at": "2026-10-27T17:44:56.496Z",
+    "updated_at": "2026-10-27T17:44:56.496Z"
+  }
+},
+{
+  "model": "shop.productvariant",
+  "pk": 1,
+  "fields": {
+    "product": 1,
+    "sku": "NK-GTEE-WHT-S",
+    "size": "S",
+    "colour": "White",
+    "colour_hex": "#FFFFFF",
+    "total_quantity": 4,
+    "is_active": true
+  }
+},
+{
+  "model": "shop.productvariant",
+  "pk": 2,
+  "fields": {
+    "product": 1,
+    "sku": "NK-GTEE-BLK-M",
+    "size": "M",
+    "colour": "Black",
+    "colour_hex": "#000000",
+    "total_quantity": 4,
+    "is_active": true
+  }
+},
+{
+  "model": "shop.productvariant",
+  "pk": 3,
+  "fields": {
+    "product": 2,
+    "sku": "NK-BAGGY-LBLUE-S",
+    "size": "S",
+    "colour": "Light Blue",
+    "colour_hex": "#8DB6CD",
+    "total_quantity": 2,
+    "is_active": true
+  }
+},
+{
+  "model": "shop.productvariant",
+  "pk": 4,
+  "fields": {
+    "product": 2,
+    "sku": "NK-BAGGY-BLUE-M",
+    "size": "M",
+    "colour": "Blue",
+    "colour_hex": "#1F4E79",
+    "total_quantity": 3,
+    "is_active": true
+  }
+},
+{
+  "model": "shop.productimage",
+  "pk": 1,
+  "fields": {
+    "product": 1,
+    "image": "products/2026/10/nike-7788-4861534-1.jpg.webp",
+    "alt_text": "Nike Sportswear Boxy Graphic Tee in white",
+    "sort_order": 0
+  }
+},
+{
+  "model": "shop.productimage",
+  "pk": 2,
+  "fields": {
+    "product": 2,
+    "image": "products/2026/10/18701db450694d3ba32caa2bc34a0efc.jpg.webp",
+    "alt_text": "Nike Sportswear Baggy Denim Jeans in light blue",
+    "sort_order": 0
+  }
+}
+]
