@@ -10,7 +10,20 @@
 
 <form method="get" action="{% url 'shop:full_catalogue' %}" class="catalogue-filters mb-4">
     <div class="row g-3 align-items-end">
-        <div class="col-sm-8 col-md-5">
+        <div class="col-md-5">
+            <label for="catalogue-search" class="form-label">
+                Search clothing
+            </label>
+
+            <input
+                type="search"
+                id="catalogue-search"
+                name="q"
+                value="{{ query }}"
+                class="form-control"
+                placeholder="Search names or descriptions">
+        </div>
+        <div class="col-md-4">
             <label for="catalogue-category" class="form-label">Category</label>
             <select id="catalogue-category" name="category" class="form-select">
                 <option value="">All categories</option>
@@ -25,9 +38,11 @@
             </select>
         </div>
         <div class="col-auto">
-            <button type="submit" class="btn btn-dark">Apply filter</button>
-            {% if selected_category %}
-                <a href="{% url 'shop:full_catalogue' %}" class="btn btn-outline-secondary">
+            <button type="submit" class="btn btn-dark">Search</button>
+
+            {% if query or selected_category %}
+                <a href="{% url 'shop:full_catalogue' %}"
+                   class="btn btn-outline-secondary">
                     Clear
                 </a>
             {% endif %}
