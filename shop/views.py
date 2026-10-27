@@ -2,22 +2,66 @@ from django.shortcuts import render
 from django.db.models import Prefetch
 from django.shortcuts import get_object_or_404, render
 
-from .models import Product, ProductVariant, Vendor
+from .models import Category, Product, ProductVariant, Vendor
 
 ## Landing page view
 def landing(request):
     return render(request, "shop/public/landing.html")
 
 
-
-## Product Views for the customer-facing catalogue and product detail pages
 def catalogue(request):
     products = visible_products()
+    categories = Category.objects.filter(products__in=products).distinct()
+    selected_category = request.GET.get("category", "")
+    invalid_category = False
+
+    if selected_category:
+        if selected_category.isdigit() and categories.filter(
+            pk=selected_category
+        ).exists():
+            products = products.filter(category_id=selected_category)
+        else:
+            products = products.none()
+            invalid_category = True
 
     return render(
         request,
         "shop/customer/catalogue.html",
-        {"products": products},
+        {
+            "products": products,
+            "categories": categories,
+            "selected_category": selected_category,
+            "invalid_category": invalid_category,
+        },
+    )
+
+
+
+def style_preferences(request):
+    return render(
+        request,
+        "shop/public/section_placeholder.html",
+        {
+            "title": "Style preferences",
+            "message": "Personal style preferences will be available here.",
+        },
+    )
+
+def customer_home(request):
+    # Temporary selection until ML workflow is done ok - ck
+    available_products = visible_products().order_by("-pk")
+    products = available_products[:8]
+    featured_vendors = Vendor.objects.filter(
+        products__in=available_products,
+    ).order_by("name").distinct()[:4]
+
+    return render(
+        request,
+        "shop/customer/customer_home.html",
+        {
+            "products": products,
+            "featured_vendors": featured_vendors,
+        },
     )
 
 def product_detail(request, product_id):

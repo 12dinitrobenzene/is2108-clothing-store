@@ -262,3 +262,97 @@ body {
     color: #666;
     font-size: 1.1rem;
 }
+
+.for-you-header {
+    margin-bottom: 4rem;
+    padding: clamp(1.5rem, 5vw, 4rem);
+    background: #f3f0e9;
+}
+
+.for-you-header nav a {
+    color: inherit;
+}
+
+.for-you-eyebrow {
+    margin-bottom: 1rem;
+    color: #777267;
+    font-size: 0.75rem;
+    font-weight: 700;
+    letter-spacing: 0.16em;
+}
+
+.for-you-title {
+    margin-bottom: 1.5rem;
+    font-family: Georgia, "Times New Roman", serif;
+    font-size: clamp(3rem, 7vw, 6rem);
+    font-weight: 400;
+    line-height: 0.98;
+}
+
+.for-you-description {
+    max-width: 33rem;
+    margin-bottom: 2rem;
+    color: #65625b;
+    font-size: 1.1rem;
+    line-height: 1.7;
+}
+
+.for-you-preferences {
+    padding: 0.9rem 1.2rem;
+    border: 1px solid #252520;
+    border-radius: 0;
+    color: #252520;
+    font-size: 0.8rem;
+    font-weight: 700;
+    letter-spacing: 0.08em;
+}
+
+.for-you-preferences:hover,
+.for-you-preferences:focus-visible {
+    background: #252520;
+    color: #fff;
+}
+
+.for-you-header .for-you-feature img {
+    display: block;
+    width: min(100%, 100px);
+    margin-inline: auto;
+    max-height: 125px;
+    aspect-ratio: 4 / 5;
+    object-fit: cover;
+    background: #e3ded3;
+}
+
+.for-you-feature figcaption {
+    padding-top: 0.75rem;
+    color: #65625b;
+    font-family: Georgia, "Times New Roman", serif;
+    font-size: 1.1rem;
+}
+
+.for-you-filters {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 1.5rem;
+    margin-top: 3rem;
+    border-bottom: 1px solid #d5d0c6;
+}
+
+.for-you-filters > * {
+    padding: 0 0 0.8rem;
+    border: 0;
+    background: transparent;
+    color: #777267;
+    font-size: 0.75rem;
+    font-weight: 700;
+    letter-spacing: 0.08em;
+}
+
+.for-you-filters .for-you-filter-active {
+    border-bottom: 2px solid #252520;
+    color: #252520;
+}
+
+.for-you-filters button:disabled {
+    opacity: 0.55;
+}
