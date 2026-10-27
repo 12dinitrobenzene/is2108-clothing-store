@@ -1,5 +1,5 @@
 from django.shortcuts import render
-from django.db.models import Prefetch
+from django.db.models import Prefetch, Q
 from django.shortcuts import get_object_or_404, render
 
 from .models import Category, Product, ProductVariant, Vendor
@@ -11,10 +11,15 @@ def landing(request):
 
 def catalogue(request):
     products = visible_products()
-    categories = Category.objects.filter(products__in=products).distinct()
+    categories = Category.objects.filter(
+        products__in=products
+    ).distinct()
+
     selected_category = request.GET.get("category", "")
+    query = request.GET.get("q", "").strip()
     invalid_category = False
 
+    # Keep your existing category filter.
     if selected_category:
         if selected_category.isdigit() and categories.filter(
             pk=selected_category
@@ -24,6 +29,13 @@ def catalogue(request):
             products = products.none()
             invalid_category = True
 
+    # Search within the permitted, category-filtered products.
+    if query:
+        products = products.filter(
+            Q(name__icontains=query)
+            | Q(description__icontains=query)
+        )
+
     return render(
         request,
         "shop/customer/catalogue.html",
@@ -32,6 +44,7 @@ def catalogue(request):
             "categories": categories,
             "selected_category": selected_category,
             "invalid_category": invalid_category,
+            "query": query,
         },
     )
 
