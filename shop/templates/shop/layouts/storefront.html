@@ -1,13 +1,84 @@
 {% extends "shop/layouts/base.html" %}
 
 {% block body %}
-<nav class="navbar navbar-expand-lg bg-light">
-    <div class="container">
-        <a class="navbar-brand" href="/">Clothing Store</a>
-        <div class="navbar-nav">
-            <a class="nav-link" href="/">Catalogue</a>
+<nav class="navbar navbar-expand-lg customer-navbar"
+     aria-label="Customer navigation">
+
+    <div class="container customer-nav-layout">
+
+        <a class="navbar-brand customer-brand"
+           href="{% url 'shop:catalogue' %}">
+            Clothing Store
+        </a>
+
+        <button class="navbar-toggler customer-menu-toggle"
+                type="button"
+                data-bs-toggle="collapse"
+                data-bs-target="#customerMenu"
+                aria-controls="customerMenu"
+                aria-expanded="false"
+                aria-label="Toggle navigation">
+            <span class="navbar-toggler-icon"></span>
+        </button>
+
+        <div class="collapse navbar-collapse customer-menu"
+             id="customerMenu">
+
+            <ul class="navbar-nav gap-lg-3">
+                <li class="nav-item">
+                    <a class="nav-link"
+                       href="{% url 'shop:customer_about' %}">
+                        About us
+                    </a>
+                </li>
+
+                <li class="nav-item">
+                    <a class="nav-link"
+                       href="{% url 'shop:customer_guide' %}">
+                        How it works
+                    </a>
+                </li>
+
+                <li class="nav-item">
+                    <a class="nav-link"
+                       href="{% url 'shop:customer_vendor_info' %}">
+                        Vendor sign up
+                    </a>
+                </li>
+            </ul>
+
+            {% block storefront_navigation %}{% endblock %}
         </div>
-        {% block storefront_navigation %}{% endblock %}
+
+        <div class="customer-nav-actions">
+            <a href="{% url 'shop:full_catalogue' %}"
+               class="customer-icon-link"
+               aria-label="Search clothing"
+               title="Search clothing">
+                <i class="bi bi-search" aria-hidden="true"></i>
+            </a>
+
+            <a href="{% url 'shop:customer_cart' %}"
+               class="customer-icon-link"
+               aria-label="Your cart"
+               title="Your cart">
+                <i class="bi bi-cart" aria-hidden="true"></i>
+            </a>
+
+            <a href="{% url 'shop:customer_wishlist' %}"
+               class="customer-icon-link"
+               aria-label="Your wishlist"
+               title="Your wishlist">
+                <i class="bi bi-heart" aria-hidden="true"></i>
+            </a>
+
+            <a href="{% url 'shop:customer_account' %}"
+               class="customer-icon-link"
+               aria-label="Your account and rental history"
+               title="Your account">
+                <i class="bi bi-person" aria-hidden="true"></i>
+            </a>
+        </div>
     </div>
 </nav>
 <main class="container py-4">
