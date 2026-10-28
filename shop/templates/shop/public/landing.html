@@ -5,6 +5,18 @@
 {% block body %}
 <main class="landing-page">
     <section class="landing-hero">
+        <details class="landing-account-menu">
+            <summary aria-label="Account menu">
+                <i class="bi bi-person" aria-hidden="true"></i>
+            </summary>
+            <div class="landing-account-dropdown">
+                <span class="landing-account-item text-muted">Sign in coming soon</span>
+                <a class="landing-account-item" href="{% url 'accounts:register' %}">
+                    Register
+                </a>
+            </div>
+        </details>
+
         <div class="container py-5">
             <p class="landing-eyebrow">CLOTHING STORE</p>
             <h1 class="display-3 fw-semibold">Style starts here.</h1>
