@@ -4,11 +4,12 @@ from django.contrib.auth.forms import AuthenticationForm
 from django.contrib.auth.models import Group
 from django.db import transaction
 from django.shortcuts import redirect, render
+from django.contrib.auth.decorators import login_required
 from django.views.decorators.http import require_POST
 
-from .forms import CustomerRegistrationForm
+from .forms import CustomerProfileForm, CustomerRegistrationForm
 from .models import CustomerProfile
-from .roles import CUSTOMER_GROUP, destination_for_user
+from .roles import CUSTOMER_GROUP, destination_for_user, user_has_role
 
 
 def register(request):
@@ -68,3 +69,33 @@ def logout_view(request):
     logout(request)
     messages.info(request, "You have been signed out.")
     return redirect("shop:landing")
+
+
+@login_required(login_url="accounts:login")
+def profile(request):
+    if not user_has_role(request.user, CUSTOMER_GROUP):
+        messages.error(request, "Only customer accounts can edit a customer profile.")
+        return redirect(destination_for_user(request.user) or "shop:landing")
+
+    customer_profile, _ = CustomerProfile.objects.get_or_create(user=request.user)
+
+    if request.method == "POST":
+        form = CustomerProfileForm(
+            request.POST,
+            instance=customer_profile,
+            user=request.user,
+        )
+
+        if form.is_valid():
+            with transaction.atomic():
+                form.save()
+
+            messages.success(request, "Your profile has been updated.")
+            return redirect("accounts:profile")
+    else:
+        form = CustomerProfileForm(
+            instance=customer_profile,
+            user=request.user,
+        )
+
+    return render(request, "accounts/profile.html", {"form": form})

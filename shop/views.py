@@ -4,10 +4,15 @@ from django.shortcuts import get_object_or_404, render
 
 from .forms import CatalogueFilterForm
 from .models import Category, Product, ProductVariant, Vendor
+from accounts.roles import CUSTOMER_GROUP, user_has_role
 
 ## Landing page view
 def landing(request):
-    return render(request, "shop/public/landing.html")
+    return render(
+        request,
+        "shop/public/landing.html",
+        {"is_customer": user_has_role(request.user, CUSTOMER_GROUP)},
+    )
 
 
 def catalogue(request):
