@@ -2,6 +2,7 @@ from django.shortcuts import render
 from django.db.models import Prefetch, Q
 from django.shortcuts import get_object_or_404, render
 
+from .forms import CatalogueFilterForm
 from .models import Category, Product, ProductVariant, Vendor
 
 ## Landing page view
@@ -11,40 +12,74 @@ def landing(request):
 
 def catalogue(request):
     products = visible_products()
-    categories = Category.objects.filter(
-        products__in=products
-    ).distinct()
-
-    selected_category = request.GET.get("category", "")
-    query = request.GET.get("q", "").strip()
-    invalid_category = False
-
-    # Keep your existing category filter.
-    if selected_category:
-        if selected_category.isdigit() and categories.filter(
-            pk=selected_category
-        ).exists():
-            products = products.filter(category_id=selected_category)
-        else:
-            products = products.none()
-            invalid_category = True
-
-    # Search within the permitted, category-filtered products.
-    if query:
-        products = products.filter(
-            Q(name__icontains=query)
-            | Q(description__icontains=query)
+    categories = Category.objects.filter(products__in=products).distinct()
+    vendors = Vendor.objects.filter(products__in=products).distinct().order_by("name")
+    sizes = (
+        ProductVariant.objects.filter(
+            product__in=products,
+            is_active=True,
+            total_quantity__gt=0,
         )
+        .values_list("size", flat=True)
+        .distinct()
+        .order_by("size")
+    )
+    filter_form = CatalogueFilterForm(
+        request.GET or None,
+        categories=categories,
+        vendors=vendors,
+        sizes=sizes,
+    )
+
+    if filter_form.is_valid():
+        query = filter_form.cleaned_data["q"]
+        selected_category = filter_form.cleaned_data["category"]
+        selected_vendor = filter_form.cleaned_data["vendor"]
+        selected_size = filter_form.cleaned_data["size"]
+        min_price = filter_form.cleaned_data["min_price"]
+        max_price = filter_form.cleaned_data["max_price"]
+        sort = filter_form.cleaned_data["sort"]
+
+        if selected_category:
+            products = products.filter(category_id=selected_category)
+
+        if selected_vendor:
+            products = products.filter(vendor_id=selected_vendor)
+
+        if selected_size:
+            products = products.filter(
+                variants__is_active=True,
+                variants__total_quantity__gt=0,
+                variants__size=selected_size,
+            )
+
+        if min_price is not None:
+            products = products.filter(daily_rate__gte=min_price)
+
+        if max_price is not None:
+            products = products.filter(daily_rate__lte=max_price)
+
+        if query:
+            products = products.filter(
+                Q(name__icontains=query)
+                | Q(description__icontains=query)
+            )
+
+        if sort == "newest":
+            products = products.order_by("-created_at", "-pk")
+        elif sort == "price_low":
+            products = products.order_by("daily_rate", "-pk")
+        elif sort == "price_high":
+            products = products.order_by("-daily_rate", "-pk")
+    else:
+        products = products.none()
 
     return render(
         request,
         "shop/customer/catalogue.html",
         {
             "products": products,
-            "categories": categories,
-            "selected_category": selected_category,
-            "invalid_category": invalid_category,
-            "query": query,
+            "filter_form": filter_form,
         },
     )
 
@@ -76,6 +111,18 @@ def customer_home(request):
             "featured_vendors": featured_vendors,
         },
     )
+
+
+def customer_placeholder(request, title, message):
+    return render(
+        request,
+        "shop/customer/placeholder.html",
+        {
+            "title": title,
+            "message": message,
+        },
+    )
+
 
 def product_detail(request, product_id):
     product = get_object_or_404(
