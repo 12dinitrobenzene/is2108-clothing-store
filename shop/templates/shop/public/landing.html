@@ -5,33 +5,7 @@
 {% block body %}
 <main class="landing-page">
     <section class="landing-hero">
-        <details class="landing-account-menu">
-            <summary aria-label="Account menu">
-                <i class="bi bi-person" aria-hidden="true"></i>
-            </summary>
-            <div class="landing-account-dropdown">
-                {% if request.user.is_authenticated %}
-                    {% if is_customer %}
-                        <a class="landing-account-item" href="{% url 'accounts:profile' %}">
-                            My profile
-                        </a>
-                    {% endif %}
-                    <form method="post" action="{% url 'accounts:logout' %}">
-                        {% csrf_token %}
-                        <button type="submit" class="landing-account-item landing-account-button">
-                            Sign out
-                        </button>
-                    </form>
-                {% else %}
-                    <a class="landing-account-item" href="{% url 'accounts:login' %}">
-                        Sign in
-                    </a>
-                    <a class="landing-account-item" href="{% url 'accounts:register' %}">
-                        Register
-                    </a>
-                {% endif %}
-            </div>
-        </details>
+        {% include "accounts/components/account_menu.html" with menu_theme="light" %}
 
         <div class="container py-5">
             <p class="landing-eyebrow">CLOTHING STORE</p>

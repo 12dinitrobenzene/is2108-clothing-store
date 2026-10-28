@@ -16,7 +16,10 @@ ROLE_DESTINATIONS = {
 }
 
 
-def destination_for_user(user):
+def role_for_user(user):
+    if not user.is_authenticated:
+        return None
+
     role_names = set(
         user.groups.filter(name__in=APPLICATION_ROLE_GROUPS).values_list(
             "name",
@@ -27,7 +30,12 @@ def destination_for_user(user):
     if len(role_names) != 1:
         return None
 
-    return ROLE_DESTINATIONS[role_names.pop()]
+    return role_names.pop()
+
+
+def destination_for_user(user):
+    role_name = role_for_user(user)
+    return ROLE_DESTINATIONS.get(role_name)
 
 
 def user_has_role(user, role_name):
