@@ -1,0 +1,36 @@
+<details class="account-menu {% if menu_theme == 'light' %}account-menu-light{% endif %}">
+    <summary aria-label="Account menu">
+        <i class="bi bi-person" aria-hidden="true"></i>
+    </summary>
+
+    <div class="account-menu-dropdown">
+        {% if not request.user.is_authenticated %}
+            <a class="account-menu-item" href="{% url 'accounts:login' %}">
+                Sign in
+            </a>
+            <a class="account-menu-item" href="{% url 'accounts:register' %}">
+                Register
+            </a>
+        {% elif account_role == 'Customer' %}
+            <a class="account-menu-item" href="{% url 'shop:catalogue' %}">
+                Home
+            </a>
+            <a class="account-menu-item" href="{% url 'accounts:profile' %}">
+                My profile
+            </a>
+            <form method="post" action="{% url 'accounts:logout' %}">
+                {% csrf_token %}
+                <button type="submit" class="account-menu-item account-menu-button">
+                    Sign out
+                </button>
+            </form>
+        {% else %}
+            <form method="post" action="{% url 'accounts:logout' %}">
+                {% csrf_token %}
+                <button type="submit" class="account-menu-item account-menu-button">
+                    Sign out
+                </button>
+            </form>
+        {% endif %}
+    </div>
+</details>
