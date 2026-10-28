@@ -11,6 +11,11 @@
             </summary>
             <div class="landing-account-dropdown">
                 {% if request.user.is_authenticated %}
+                    {% if is_customer %}
+                        <a class="landing-account-item" href="{% url 'accounts:profile' %}">
+                            My profile
+                        </a>
+                    {% endif %}
                     <form method="post" action="{% url 'accounts:logout' %}">
                         {% csrf_token %}
                         <button type="submit" class="landing-account-item landing-account-button">

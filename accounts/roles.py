@@ -28,3 +28,7 @@ def destination_for_user(user):
         return None
 
     return ROLE_DESTINATIONS[role_names.pop()]
+
+
+def user_has_role(user, role_name):
+    return user.is_authenticated and user.groups.filter(name=role_name).exists()
