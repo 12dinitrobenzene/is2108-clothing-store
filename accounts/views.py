@@ -1,16 +1,20 @@
 from django.contrib import messages
+from django.contrib.auth import login, logout
+from django.contrib.auth.forms import AuthenticationForm
 from django.contrib.auth.models import Group
 from django.db import transaction
 from django.shortcuts import redirect, render
+from django.views.decorators.http import require_POST
 
 from .forms import CustomerRegistrationForm
 from .models import CustomerProfile
-from .roles import CUSTOMER_GROUP
+from .roles import CUSTOMER_GROUP, destination_for_user
 
 
 def register(request):
     if request.user.is_authenticated:
-        return redirect("shop:catalogue")
+        destination = destination_for_user(request.user)
+        return redirect(destination or "shop:landing")
 
     if request.method == "POST":
         form = CustomerRegistrationForm(request.POST)
@@ -24,10 +28,43 @@ def register(request):
 
             messages.success(
                 request,
-                "Your customer account has been created. Sign-in will be available soon.",
+                "Your customer account has been created. Sign in to continue.",
             )
             return redirect("shop:landing")
     else:
         form = CustomerRegistrationForm()
 
     return render(request, "accounts/register.html", {"form": form})
+
+
+def login_view(request):
+    if request.user.is_authenticated:
+        destination = destination_for_user(request.user)
+        return redirect(destination or "shop:landing")
+
+    if request.method == "POST":
+        form = AuthenticationForm(request, data=request.POST)
+
+        if form.is_valid():
+            user = form.get_user()
+            destination = destination_for_user(user)
+
+            if destination:
+                login(request, user)
+                return redirect(destination)
+
+            form.add_error(
+                None,
+                "This account does not have exactly one application role.",
+            )
+    else:
+        form = AuthenticationForm(request)
+
+    return render(request, "accounts/login.html", {"form": form})
+
+
+@require_POST
+def logout_view(request):
+    logout(request)
+    messages.info(request, "You have been signed out.")
+    return redirect("shop:landing")
