@@ -7,3 +7,24 @@ APPLICATION_ROLE_GROUPS = (
     VENDOR_EMPLOYEE_GROUP,
     PLATFORM_ADMIN_GROUP,
 )
+
+
+ROLE_DESTINATIONS = {
+    CUSTOMER_GROUP: "shop:catalogue",
+    VENDOR_EMPLOYEE_GROUP: "shop:employee_home",
+    PLATFORM_ADMIN_GROUP: "shop:platform_admin_home",
+}
+
+
+def destination_for_user(user):
+    role_names = set(
+        user.groups.filter(name__in=APPLICATION_ROLE_GROUPS).values_list(
+            "name",
+            flat=True,
+        )
+    )
+
+    if len(role_names) != 1:
+        return None
+
+    return ROLE_DESTINATIONS[role_names.pop()]
