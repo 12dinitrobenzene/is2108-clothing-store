@@ -12,6 +12,12 @@
                 Register
             </a>
         {% elif account_role == 'Customer' %}
+            {% if customer_navigation %}
+                <a class="account-menu-item"
+                   href="{% url 'shop:customer_account' %}">
+                    My account &amp; rentals
+                </a>
+            {% endif %}
             <a class="account-menu-item" href="{% url 'shop:catalogue' %}">
                 Home
             </a>
