@@ -2,7 +2,10 @@ from django.contrib.auth.decorators import login_required
 from django.db.models import Prefetch, Q
 from django.shortcuts import get_object_or_404, render
 
-from accounts.permissions import get_employee_for_user
+from accounts.permissions import (
+    get_employee_for_user,
+    require_platform_admin,
+)
 from .forms import CatalogueFilterForm
 from .models import Category, Product, ProductVariant, Vendor
 
@@ -214,14 +217,13 @@ def employee_product_detail(request, product_id):
     )
 
 
+@login_required(login_url="accounts:login")
 def platform_admin_home(request):
+    require_platform_admin(request.user)
+
     return render(
         request,
-        "shop/public/section_placeholder.html",
-        {
-            "title": "Platform admin",
-            "message": "The platform dashboard will be available here.",
-        },
+        "shop/platform_admin/home.html",
     )
 
 def visible_products():

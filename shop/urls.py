@@ -16,7 +16,7 @@ urlpatterns = [
         views.employee_product_detail,
         name="employee_product_detail",
     ),
-    path("platform-admin/", views.platform_admin_home, name="platform_admin_home"),
+    path("platform_admin/", views.platform_admin_home, name="platform_admin_home"),
     path(
         "customer/products/<int:product_id>/",
         views.product_detail,

@@ -1,7 +1,11 @@
 from django.core.exceptions import PermissionDenied
 
 from .models import VendorEmployee
-from .roles import VENDOR_EMPLOYEE_GROUP, role_for_user
+from .roles import (
+    PLATFORM_ADMIN_GROUP,
+    VENDOR_EMPLOYEE_GROUP,
+    role_for_user,
+)
 
 
 def get_employee_for_user(user):
@@ -19,4 +23,15 @@ def get_employee_for_user(user):
     except VendorEmployee.DoesNotExist:
         raise PermissionDenied(
             "Your account is not linked to a vendor."
+        )
+
+
+def require_platform_admin(user):
+    if (
+        not user.is_authenticated
+        or not user.is_active
+        or role_for_user(user) != PLATFORM_ADMIN_GROUP
+    ):
+        raise PermissionDenied(
+            "Platform administrator access is required."
         )

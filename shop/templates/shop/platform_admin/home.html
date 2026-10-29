@@ -1,0 +1,24 @@
+{% extends "shop/layouts/staff.html" %}
+
+{% block title %}Platform workspace | Clothing Store{% endblock %}
+
+{% block content %}
+<header class="mb-4">
+    <p class="text-muted small text-uppercase">
+        Platform administration
+    </p>
+
+    <h1>Platform workspace</h1>
+
+    <p>Welcome, {{ request.user.username }}.</p>
+</header>
+
+<section class="border rounded p-4">
+    <h2 class="h4">Platform management</h2>
+
+    <p class="text-muted mb-0">
+        Vendor approvals, listing moderation and other platform
+        management features will be added in Sprint 7.
+    </p>
+</section>
+{% endblock %}

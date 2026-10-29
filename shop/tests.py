@@ -4,7 +4,11 @@ from django.test import TestCase
 from django.urls import reverse
 
 from accounts.models import VendorEmployee
-from accounts.roles import VENDOR_EMPLOYEE_GROUP
+from accounts.roles import (
+    CUSTOMER_GROUP,
+    PLATFORM_ADMIN_GROUP,
+    VENDOR_EMPLOYEE_GROUP,
+)
 
 from .models import Category, Product, ProductVariant, Vendor
 
@@ -180,3 +184,70 @@ class EmployeeHomeTests(TestCase):
 
         self.assertEqual(own_response.status_code, 200)
         self.assertEqual(other_response.status_code, 404)
+
+
+class PlatformAdminWorkspaceTests(TestCase):
+    def setUp(self):
+        self.url = reverse("shop:platform_admin_home")
+
+        self.user = get_user_model().objects.create_user(
+            username="workspace-test-user",
+            password="test-password",
+        )
+
+        self.groups = {
+            name: Group.objects.get_or_create(name=name)[0]
+            for name in (
+                CUSTOMER_GROUP,
+                VENDOR_EMPLOYEE_GROUP,
+                PLATFORM_ADMIN_GROUP,
+            )
+        }
+
+    def test_logged_out_user_is_redirected_to_login(self):
+        response = self.client.get(self.url)
+
+        expected = f"{reverse('accounts:login')}?next={self.url}"
+
+        self.assertRedirects(
+            response,
+            expected,
+            fetch_redirect_response=False,
+        )
+
+    def test_platform_admin_can_access_workspace(self):
+        self.user.groups.add(self.groups[PLATFORM_ADMIN_GROUP])
+        self.client.force_login(self.user)
+
+        response = self.client.get(self.url)
+
+        self.assertEqual(response.status_code, 200)
+        self.assertTemplateUsed(
+            response,
+            "shop/platform_admin/home.html",
+        )
+        self.assertContains(response, "Platform workspace")
+
+    def test_other_roles_and_missing_role_are_forbidden(self):
+        for role in (CUSTOMER_GROUP, VENDOR_EMPLOYEE_GROUP, None):
+            with self.subTest(role=role):
+                self.user.groups.clear()
+
+                if role:
+                    self.user.groups.add(self.groups[role])
+
+                self.client.force_login(self.user)
+                response = self.client.get(self.url)
+
+                self.assertEqual(response.status_code, 403)
+
+    def test_multiple_application_roles_are_forbidden(self):
+        self.user.groups.add(
+            self.groups[PLATFORM_ADMIN_GROUP],
+            self.groups[CUSTOMER_GROUP],
+        )
+        self.client.force_login(self.user)
+
+        response = self.client.get(self.url)
+
+        self.assertEqual(response.status_code, 403)
