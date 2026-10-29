@@ -11,6 +11,11 @@ urlpatterns = [
     path("customer/", views.customer_home, name="catalogue"),
     path("customer/catalogue/", views.catalogue, name="full_catalogue"),
     path("employee/", views.employee_home, name="employee_home"),
+    path(
+        "employee/products/<int:product_id>/",
+        views.employee_product_detail,
+        name="employee_product_detail",
+    ),
     path("platform-admin/", views.platform_admin_home, name="platform_admin_home"),
     path(
         "customer/products/<int:product_id>/",
