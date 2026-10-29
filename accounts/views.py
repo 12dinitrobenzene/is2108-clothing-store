@@ -15,7 +15,7 @@ from .roles import CUSTOMER_GROUP, destination_for_user, user_has_role
 def register(request):
     if request.user.is_authenticated:
         destination = destination_for_user(request.user)
-        return redirect(destination or "shop:landing")
+        return redirect(destination or "shop:catalogue")
 
     if request.method == "POST":
         form = CustomerRegistrationForm(request.POST)
