@@ -450,21 +450,89 @@ body {
     border-bottom: 1px solid #ded9cf;
 }
 
+/* Mobile/tablet layout */
 .customer-navbar > .customer-nav-layout {
-    display: flex;
-    justify-content: space-between;
+    display: grid;
+    grid-template-columns: minmax(0, 1fr) auto auto;
+    grid-template-areas:
+        "brand actions toggle"
+        "menu menu menu";
+    gap: 0 0.5rem;
     align-items: center;
 }
 
 .customer-brand {
+    grid-area: brand;
     margin: 0;
     color: #252520;
     font-family: Georgia, "Times New Roman", serif;
     font-size: 1.5rem;
+    white-space: normal;
     line-height: 1.1;
 }
 
-.customer-navbar a:focus-visible {
+.customer-menu {
+    grid-area: menu;
+}
+
+.customer-menu .nav-link {
+    padding-block: 0.85rem;
+    color: #555348;
+    font-size: 0.75rem;
+    letter-spacing: 0.07em;
+    text-transform: uppercase;
+}
+
+.customer-menu .nav-link:hover {
+    color: #252520;
+    text-decoration: underline;
+    text-underline-offset: 5px;
+}
+
+.customer-menu-toggle {
+    grid-area: toggle;
+    padding: 0.4rem;
+    border: 1px solid #d5d0c6;
+    border-radius: 0;
+}
+
+.customer-nav-actions {
+    grid-area: actions;
+    display: flex;
+    align-items: center;
+    justify-self: end;
+    gap: 0.25rem;
+}
+
+.customer-icon-link,
+.customer-nav-actions .account-menu summary {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    width: 44px;
+    height: 44px;
+    border: 0;
+    border-radius: 0;
+    color: #252520;
+    font-size: 1.25rem;
+    text-decoration: none;
+}
+
+.customer-icon-link:hover,
+.customer-nav-actions .account-menu summary:hover {
+    background: #eeebe3;
+    color: #252520;
+}
+
+.customer-nav-actions .account-menu-dropdown {
+    z-index: 1030;
+    border: 1px solid #ded9cf;
+    border-radius: 0;
+}
+
+.customer-navbar a:focus-visible,
+.customer-navbar summary:focus-visible,
+.customer-menu-toggle:focus-visible {
     outline: 2px solid #656b54;
     outline-offset: 3px;
 }
@@ -475,8 +543,31 @@ body {
     align-items: center;
 }
 
+/* Desktop: brand left, links centred, icons right */
+@media (min-width: 992px) {
+    .customer-navbar > .customer-nav-layout {
+        grid-template-columns:
+            minmax(0, 1fr) auto minmax(0, 1fr);
+        grid-template-areas: "brand menu actions";
+    }
+
+    .customer-menu {
+        justify-content: center;
+    }
+}
+
+/* Narrow phones */
 @media (max-width: 575.98px) {
     .customer-brand {
         font-size: 1.1rem;
+    }
+
+    .customer-nav-actions {
+        gap: 0;
+    }
+
+    .customer-icon-link,
+    .customer-nav-actions .account-menu summary {
+        width: 36px;
     }
 }
