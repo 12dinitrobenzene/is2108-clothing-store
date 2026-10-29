@@ -205,7 +205,7 @@
     <div class="row g-4">
         {% for related_product in related_products %}
             <div class="col-sm-6 col-lg-3">
-                {% include "shop/components/product_card.html" with product=related_product only %}
+                {% include "shop/customer/components/product_card.html" with product=related_product only %}
             </div>
         {% endfor %}
     </div>
