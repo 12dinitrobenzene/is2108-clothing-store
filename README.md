@@ -9,15 +9,19 @@ simulated commission settlements.
 
 **Group number:** PP52
 
-### Member 1
+### Member 1 (Group Leader)
 
 - **Full name:** FOO CHUAN KANG
 - **Student number:** A0322968R
+- **Email:** e1525875@u.nus.edu
+- **Contact Number:** +65 9759 0865
 
 ### Member 2
 
 - **Full name:** ER TENG SHENG ELGIN
 - **Student number:** A0315640M
+- **Email:** e1512591@u.nus.edu
+- **Contact Number:** +65 8101 7361
 
 ## Full demonstration video
 
