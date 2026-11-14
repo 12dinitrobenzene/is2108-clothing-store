@@ -1,21 +1,21 @@
-IS2108 PAIR PROJECT
-===================
+IS2108 PAIR PROJECT - THE RENTAL RACK
+=====================================
 
 GROUP INFORMATION
 -----------------
-Group number: [Enter group number]
+Group number: PP52
 
 Member 1 (Group Leader)
-Full name: [Enter full name]
-Student number: [Enter student number]
-Email: [Enter email]
-Contact number: [Enter contact number]
+Full name: FOO CHUAN KANG
+Student number: A0322968R
+Email:  e1525875@u.nus.edu
+Contact number: +65 9759 0865
 
 Member 2
-Full name: [Enter full name]
-Student number: [Enter student number]
-Email: [Enter email]
-Contact number: [Enter contact number]
+Full name: ER TENG SHENG ELGIN
+Student number: A0315640M
+Email: e1512591@u.nus.edu
+Contact number: +65 8101 7361
 
 
 HOW TO RUN THE WEB APPLICATION
@@ -97,4 +97,4 @@ the active and overdue examples remain suitable for demonstration.
 
 FULL DEMONSTRATION VIDEO
 ------------------------
-YouTube link: [Insert YouTube URL]
+YouTube link: https://youtu.be/827GMc5VVGM
